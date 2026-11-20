@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forecasting System for Female Enrolment in Computer Science in Nigeria</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <h1>Forecasting System for Female Enrolment in Computer Science in Nigeria</h1>
+  <p class="subtitle">University of Ibadan — Department of Computer Science (Final-Year Project)</p>
+</header>
+
+<main>
+  <div id="sampleBanner" class="banner" hidden>
+    ILLUSTRATIVE SAMPLE DATA — not real NUC figures
+  </div>
+
+  <section id="dataSection">
+    <h2>1. Enrolment Data</h2>
+
+    <form id="addForm">
+      <label>Year
+        <input type="number" id="yearInput" placeholder="e.g. 2024" min="1000" max="9999" required>
+      </label>
+      <label>Female enrolment
+        <input type="number" id="enrolInput" placeholder="e.g. 236" min="0" step="any" required>
+      </label>
+      <button type="submit">Add row</button>
+    </form>
+    <p id="formMsg" class="msg"></p>
+
+    <div class="actions">
+      <button id="sampleBtn" type="button">Load sample dataset</button>
+      <button id="clearBtn" type="button" class="danger">Clear data</button>
+      <label class="file-label">Upload CSV
+        <input type="file" id="csvFile" accept=".csv,text/csv" hidden>
+      </label>
+      <span class="hint">CSV columns: <code>year,female_enrolment</code></span>
+    </div>
+    <p id="csvMsg" class="msg"></p>
+
+    <table id="dataTable">
+      <thead><tr><th>Year</th><th>Female enrolment</th><th>Actions</th></tr></thead>
+      <tbody id="dataBody"></tbody>
+    </table>
+    <p id="emptyMsg" class="muted">No data yet. Load the sample dataset or add rows above.</p>
+  </section>
+
+  <section id="forecastSection">
+    <h2>2. Forecast</h2>
+    <form id="forecastForm">
+      <label>Method
+        <select id="methodSelect">
+          <option value="moving-average">3-year moving average</option>
+          <option value="linear-regression" selected>Linear regression (trend line)</option>
+          <option value="exponential-smoothing">Simple exponential smoothing</option>
+        </select>
+      </label>
+      <label id="alphaLabel" hidden>Alpha (0–1)
+        <input type="number" id="alphaInput" value="0.3" min="0.01" max="1" step="any">
+      </label>
+      <label>Years ahead (1–5)
+        <input type="number" id="yearsAheadInput" value="3" min="1" max="5">
+      </label>
+      <button type="submit">Run forecast</button>
+    </form>
+    <p id="forecastMsg" class="msg"></p>
+
+    <div id="forecastResults" hidden>
+      <div id="forecastBanner" class="banner" hidden>
+        ILLUSTRATIVE SAMPLE DATA — not real NUC figures
+      </div>
+      <h3 id="forecastTitle">Forecast results</h3>
+      <table id="forecastTable">
+        <thead><tr><th>Year</th><th>Forecast female enrolment</th></tr></thead>
+        <tbody id="forecastBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="chartSection">
+    <h2>3. Chart — History and Forecast</h2>
+    <canvas id="chart" width="900" height="380"></canvas>
+    <p class="legend"><span class="swatch history"></span> History
+      <span class="swatch forecast"></span> Forecast</p>
+    <p id="chartMsg" class="muted">Run a forecast to see the chart.</p>
+  </section>
+
+  <section id="accuracySection">
+    <h2>4. Accuracy (Backtest)</h2>
+    <p>Each method is trained on all but the last 3 years, then tested against
+      those 3 years. Lower MAPE and MAE mean a better forecast.</p>
+    <form id="accuracyForm">
+      <label>Alpha for exponential smoothing (0–1)
+        <input type="number" id="accuracyAlpha" value="0.3" min="0.01" max="1" step="any">
+      </label>
+      <button type="submit">Compare all methods</button>
+    </form>
+    <p id="accuracyMsg" class="msg"></p>
+    <table id="accuracyTable" hidden>
+      <thead><tr><th>Method</th><th>MAPE (%)</th><th>MAE</th><th>Best?</th></tr></thead>
+      <tbody id="accuracyBody"></tbody>
+    </table>
+    <div id="accuracyDetail"></div>
+  </section>
+</main>
+
+<footer>
+  <p>Forecasting System for Female Enrolment in Computer Science in Nigeria —
+    University of Ibadan final-year project. The built-in sample dataset is
+    illustrative only and is not real NUC data.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
